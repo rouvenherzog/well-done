@@ -69,6 +69,9 @@ a {
     font-size: 3em;
     color: #00b33d; }
 
+blockquote.text-muted p {
+  text-decoration: line-through; }
+
 .authentication-form label {
   width: 150px;
   text-align: right;

@@ -5,7 +5,7 @@
 	{% for badge in user.received_badges | reverse %}
 		<div class="list-badge-wrapper">
 			<div class="col-md-10">
-				<blockquote>
+				<blockquote class="{{ 'text-muted' if badge.wasnt_me }}">
 					<p>{{ badge.title }}</p>
 					<footer>
 						{{ badge.sender.name }}
@@ -23,9 +23,9 @@
 					</footer>
 				</blockquote>
 			</div>
-			<div class="col-md-2 list-badge-action">
+			<div class="list-badge-action">
 				{% if current_user != badge.sender and current_user != badge.receiver %}
-					<a href="{{ url_for('.agree_badge', badge_id = badge.id) }}" class="btn btn-primary i-agree">
+					<a href="{{ url_for('.agree_badge', badge_id = badge.id) }}" class="btn btn-primary i-agree col-md-2">
 						{% if not current_user in badge.agreeing %}
 							<span class="glyphicon glyphicon-thumbs-up"></span>
 							I agree!
@@ -34,6 +34,23 @@
 							Maybe not.
 						{% endif %}
 					</a>
+				{% elif current_user == badge.sender %}
+					<a href="{{ url_for('.remove_badge', badge_id = badge.id) }}" class="btn btn-primary i-agree col-md-2">
+						<span class="glyphicon glyphicon-fire"></span>
+						Take it away!
+					</a>
+				{% elif current_user == badge.receiver %}
+					{% if not badge.wasnt_me %}
+						<a href="{{ url_for('.wasnt_me', badge_id = badge.id) }}" class="btn btn-primary i-agree col-md-2">
+							<span class="glyphicon glyphicon-music"></span>
+							Wasn't me.
+						</a>
+					{% else %}
+						<a href="{{ url_for('.wasnt_me', badge_id = badge.id) }}" class="btn btn-primary i-agree col-md-2">
+							<span class="glyphicon glyphicon-repeat"></span>
+							'Kay, me.
+						</a>
+					{% endif %}
 				{% endif %}
 			</div>
 			<div class="clearfix"></div>

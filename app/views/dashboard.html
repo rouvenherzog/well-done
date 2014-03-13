@@ -49,14 +49,14 @@
 				<div class="col-md-4">
 					<h4>Awesomeness Points</h4>
 					<div class="awesomeness-points">
-						{{ current_user.received_badge_points }}
+						{{ current_user.received_badge_points or 0 }}
 					</div>
 				</div>
 
 				<div class="col-md-4">
 					<h4>Achivements</h4>
 					<div class="awesomeness-achievements">
-						{{ current_user.received_badges | length }}
+						{{ current_user.valid_received_badges | length }}
 					</div>
 				</div>
 

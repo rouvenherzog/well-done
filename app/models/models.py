@@ -34,14 +34,21 @@ class User(db.Model, UserMixin):
 	def received_badge_points(self):
 		return sum([
 			( badge.value * pow(2, len(badge.agreeing.all())) )
-			for badge in self.received_badges
+			for badge in self.valid_received_badges
 		])
+
+	@property
+	def valid_received_badges(self):
+		return [
+			b for b in self.received_badges if not b.wasnt_me
+		]
 
 class Badge( db.Model ):
 	id = db.Column( db.Integer, primary_key=True )
 	title = db.Column( db.Text )
 	value = db.Column( db.Integer, default=1 )
 	send_at = db.Column( db.DateTime, default=datetime.now() )
+	wasnt_me = db.Column( db.Boolean, default=0 )
 
 	@classmethod
 	def get_news(Badge):

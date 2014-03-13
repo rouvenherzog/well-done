@@ -11,7 +11,8 @@ praises = [
 	"Awesome",
 	"Amazing",
 	"Incredible",
-	"Nice"
+	"Nice",
+	"Fabulous"
 ]
 
 def register_views( project ):
@@ -76,6 +77,58 @@ def register_views( project ):
 				'errors/404.html'
 			)
 
+	@project.route('/badge/<int:badge_id>/remove')
+	@login_required
+	def remove_badge( badge_id ):
+		badge = Badge.query.get( badge_id )
+		if badge:
+			if badge.sender == current_user:
+				db.session.delete(badge)
+				db.session.commit()
+
+				session['flash'] = {
+					"success": ["You took the praise and burried it in your backyard."]
+				}
+			else:
+				session['flash'] = {
+					"failure": ["You really should not take other peoples praise!"]
+				}
+		else:
+			session['flash'] = {
+				"failure": ["Naah. This badge doesn't even exist."]
+			}
+
+		return redirect( request.referrer )
+
+	@project.route('/badge/<int:badge_id>/wasnt_me')
+	@login_required
+	def wasnt_me( badge_id ):
+		badge = Badge.query.get( badge_id )
+		if badge:
+			if badge.receiver == current_user:
+				badge.wasnt_me = not badge.wasnt_me
+				db.session.add( badge )
+				db.session.commit()
+
+				if badge.wasnt_me:
+					session['flash'] = {
+						"success": ["How honest you are."]
+					}
+				else:
+					session['flash'] = {
+						"success": ["Do you feel better already?"]
+					}
+			else:
+				session['flash'] = {
+					"failure": ["Very enthusiastic, but maybe we let people decide themselves in the future."]
+				}
+		else:
+			session['flash'] = {
+				"failure": ["Naah. This badge doesn't even exist."]
+			}
+
+		return redirect( request.referrer )
+
 	@project.route('/badge/<int:badge_id>/agree')
 	@login_required
 	def agree_badge( badge_id ):
@@ -93,14 +146,13 @@ def register_views( project ):
 				session['flash'] = {
 					"success": ["You {0}.".format("agree" if current_user in badge.agreeing else "disagree")]
 				}
-				return redirect( request.referrer )
 			else:
 				session['flash'] = {
 					"failure": ["Don't fool me. You received or send this badge."]
 				}
-				return redirect( request.referrer )
 		else:
 			session['flash'] = {
 				"failure": ["Naah. This badge doesn't even exist."]
 			}
-			return redirect( request.referrer )
+
+		return redirect( request.referrer )

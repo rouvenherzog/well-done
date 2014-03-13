@@ -105,6 +105,10 @@ a {
 	}
 }
 
+blockquote.text-muted p {
+	text-decoration: line-through;
+}
+
 .authentication-form {
 	label {
 		width: 150px;
