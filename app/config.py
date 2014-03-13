@@ -50,16 +50,16 @@ class Dev(Config):
 
 class Production(Config):
     DEBUG = True
-    SITE_URL = "http://myeufunds-app.rightbrain-nodes.com"
-    SERVER_NAME = "myeufunds-app.rightbrain-nodes.com"
+    SITE_URL = "http://welldone.rightbrain-nodes.com"
+    SERVER_NAME = "welldone.rightbrain-nodes.com"
     TEMPLATE_DIRS = [
-        '/var/www/myeufunds/app/views'
+        '/var/www/well-done/app/views'
     ]
     MAIL_RECIPIENTS = [
         "rouvenherzog@newstartprogramming.com"
     ]
 
-    ROOT_LOCATION = '/var/www/myeufunds/app'
+    ROOT_LOCATION = '/var/www/well-done/app'
 
     SQLALCHEMY_DATABASE_URI = "mysql://rouven:*(HH4SEdZaUewAAeDz)!@localhost/%s?charset=utf8&use_unicode=0" % "well-done"
     MEDIA_LOCATION = os.path.join(ROOT_LOCATION, 'media')

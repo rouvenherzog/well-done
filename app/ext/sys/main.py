@@ -15,6 +15,11 @@ def __import_blueprint(blueprint_str):
 
 
 def app_factory(config, app_name=None, blueprints=None):
+    if type(config) == str:
+        modules = '.'.join(config.split('.')[0:-1])
+        classname = config.split('.')[-1]
+        config = getattr(__import__(modules), classname )
+
     app_name = config.PROJECT_NAME or __name__
     app = Flask(app_name)
     configure_app(app, config)
