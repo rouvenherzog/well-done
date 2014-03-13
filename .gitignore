@@ -8,12 +8,12 @@
 # Packages
 *.egg
 *.egg-info
-dist
+/dist
 build
 !doc/build
 eggs
 parts
-bin
+/bin
 var
 sdist
 develop-eggs
