@@ -54,7 +54,7 @@
 				</div>
 
 				<div class="col-md-4">
-					<h4>Achivements</h4>
+					<h4>Achievement</h4>
 					<div class="awesomeness-achievements">
 						{{ current_user.valid_received_badges | length }}
 					</div>
@@ -84,6 +84,9 @@
 							<a  href="{{ url_for('.show_user', user_id = user.id) }}">
 								<h2 class="pull-left group-member-name">
 									{{ user.name }}
+									<span class="badge">
+										{{ user.received_badge_points or 0 }} AP
+									</span>
 								</h2>
 							</a>
 

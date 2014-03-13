@@ -31,6 +31,8 @@
   border-color: #aaaaaa; }
   .you-are-awesome-wrapper .group-member-name {
     margin-top: 0px; }
+    .you-are-awesome-wrapper .group-member-name .badge {
+      font-size: 30%; }
   .you-are-awesome-wrapper .you-are-awesome-btn {
     margin-top: 5px;
     cursor: pointer; }
