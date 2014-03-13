@@ -1,0 +1,42 @@
+{% macro from(user) %}
+	<h3 class="capture">
+		Awesomeness
+	</h3>
+	{% for badge in user.received_badges | reverse %}
+		<div class="list-badge-wrapper">
+			<div class="col-md-10">
+				<blockquote>
+					<p>{{ badge.title }}</p>
+					<footer>
+						{{ badge.sender.name }}
+						{% if badge.agreeing.all() %}
+							(
+								{% for agreeing in badge.agreeing %}
+									{{ "" if loop.first else " and " if loop.last else ", " }}
+									{{
+										"You" if agreeing == current_user else agreeing.name 
+									}}
+								{% endfor %}
+								agree{{ "s" if badge.agreeing.all()|length == 1 and badge.agreeing.first() != current_user }}
+							)
+						{% endif %}
+					</footer>
+				</blockquote>
+			</div>
+			<div class="col-md-2 list-badge-action">
+				{% if current_user != badge.sender and current_user != badge.receiver %}
+					<a href="{{ url_for('.agree_badge', badge_id = badge.id) }}" class="btn btn-primary i-agree">
+						{% if not current_user in badge.agreeing %}
+							<span class="glyphicon glyphicon-thumbs-up"></span>
+							I agree!
+						{% else %}
+							<span class="glyphicon glyphicon-thumbs-down"></span>
+							Maybe not.
+						{% endif %}
+					</a>
+				{% endif %}
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	{% endfor %}
+{% endmacro %}
