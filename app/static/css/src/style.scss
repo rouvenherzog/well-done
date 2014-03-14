@@ -4,6 +4,10 @@ $white: #FEFEFE;
 $light_gray: #E0E0E0;
 $green: #00B33D;
 
+body > .container {
+	padding-bottom: 50px;
+}
+
 .header{
 	margin-bottom: 30px;
 	padding-bottom: 10px;
@@ -84,12 +88,9 @@ a {
 	position: relative;
 
 	.list-badge-action {
-		position: initial;
-
-		.i-agree {
-			position: absolute;
-			top: 50%;
-			margin-top: -29px;
+		a:last-child {
+			color: $green;
+			// background-color: $anthrazit;
 		}
 	}
 }
@@ -131,5 +132,36 @@ blockquote.text-muted p {
 	input[type="submit"] {
 		float: right;
 		margin-right: 5px;
+	}
+}
+
+
+.amount-comments {
+	padding: 10px 5px;
+	text-align: right;
+}
+
+.badge-comment-wrapper {
+	border-top: 1px solid $light_gray;
+	border-bottom: 1px solid $light_gray;
+	margin-bottom: 20px;
+
+	.comment-list-wrapper {
+		margin: 10px 0px 10px -15px;
+		padding-left: 15px;
+		border-left: 2px solid $anthrazit;
+
+		.comment-date {
+			text-align: right;
+			font-size: 80%;
+		}
+
+		blockquote {
+			margin-bottom: 0px;
+		}
+
+		.row {
+			padding: 10px 0px;
+		}
 	}
 }

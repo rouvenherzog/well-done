@@ -1,3 +1,6 @@
+body > .container {
+  padding-bottom: 50px; }
+
 .header {
   margin-bottom: 30px;
   padding-bottom: 10px;
@@ -55,12 +58,8 @@ a {
 
 .list-badge-wrapper {
   position: relative; }
-  .list-badge-wrapper .list-badge-action {
-    position: initial; }
-    .list-badge-wrapper .list-badge-action .i-agree {
-      position: absolute;
-      top: 50%;
-      margin-top: -29px; }
+  .list-badge-wrapper .list-badge-action a:last-child {
+    color: #00b33d; }
 
 .user-stats {
   text-align: center; }
@@ -85,3 +84,23 @@ blockquote.text-muted p {
 .authentication-form input[type="submit"] {
   float: right;
   margin-right: 5px; }
+
+.amount-comments {
+  padding: 10px 5px;
+  text-align: right; }
+
+.badge-comment-wrapper {
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px; }
+  .badge-comment-wrapper .comment-list-wrapper {
+    margin: 10px 0px 10px -15px;
+    padding-left: 15px;
+    border-left: 2px solid #313131; }
+    .badge-comment-wrapper .comment-list-wrapper .comment-date {
+      text-align: right;
+      font-size: 80%; }
+    .badge-comment-wrapper .comment-list-wrapper blockquote {
+      margin-bottom: 0px; }
+    .badge-comment-wrapper .comment-list-wrapper .row {
+      padding: 10px 0px; }

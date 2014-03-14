@@ -50,6 +50,9 @@ class Badge( db.Model ):
 	send_at = db.Column( db.DateTime, default=datetime.now() )
 	wasnt_me = db.Column( db.Boolean, default=0 )
 
+	def __init__(self):
+		self.send_at = datetime.now()
+
 	@classmethod
 	def get_news(Badge):
 		return [
@@ -78,3 +81,30 @@ class Badge( db.Model ):
 			lazy='joined'
 		)
 	)
+
+class Comment( db.Model ):
+	id = db.Column( db.Integer, primary_key=True )
+	comment = db.Column( db.Text, nullable=False )
+	send_at = db.Column( db.DateTime, default=datetime.now() )
+
+	author_id = db.Column( db.Integer, db.ForeignKey('user.id') )
+	author = db.relationship(
+		'User',
+		backref=db.backref(
+			'comments',
+			lazy='dynamic'
+		)
+	)
+
+	badge_id = db.Column( db.Integer, db.ForeignKey('badge.id') )
+	badge = db.relationship(
+		'Badge',
+		backref=db.backref(
+			'comments',
+			lazy='joint',
+			cascade='delete'
+		)
+	)
+
+	def __init__(self):
+		self.send_at = datetime.now()

@@ -1,4 +1,4 @@
-{% import 'snippets/badget-list.html' as list_badgets with context %}
+{% import 'snippets/badge-list.html' as list_badges with context %}
 
 <!Doctype html>
 <html>
@@ -73,7 +73,7 @@
 			</div>
 
 			<div class="col-md-8">
-					{{ list_badgets.from(current_user) }}
+					{{ list_badges.from(current_user) }}
 			</div>
 
 			<div class="col-md-4">

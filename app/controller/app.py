@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, session
 from ext.sys.database import db
 from flask.ext.security import login_required
 from flask_security.core import current_user
-from models.models import User, Badge
+from models.models import User, Badge, Comment
 from json import loads
 from random import choice
 
@@ -50,7 +50,7 @@ def register_views( project ):
 			db.session.commit()
 
 			session['flash'] = {
-				"success": ["You gave {0} a badge.".format( receiver.name )]
+				"success": ["You praised {0}.".format( receiver.name )]
 			}
 		else:
 			session['flash'] = {
@@ -144,11 +144,44 @@ def register_views( project ):
 				db.session.commit()
 
 				session['flash'] = {
-					"success": ["You {0}.".format("agree" if current_user in badge.agreeing else "disagree")]
+					"success": ["You {0}.".format("agree" if current_user in badge.agreeing else "don't agree anymore")]
 				}
 			else:
 				session['flash'] = {
 					"failure": ["Don't fool me. You received or send this badge."]
+				}
+		else:
+			session['flash'] = {
+				"failure": ["Naah. This badge doesn't even exist."]
+			}
+
+		return redirect( request.referrer )
+
+	@project.route('/badge/<int:badge_id>/comment', methods=["POST"])
+	@login_required
+	def comment_badge( badge_id ):
+		badge = Badge.query.get( badge_id )
+		if badge:
+			text = request.form.get('comment')
+
+			if text:
+				comment = Comment()
+				comment.comment = text
+				comment.badge = badge
+				comment.author = current_user
+
+				db.session.add( comment )
+				db.session.commit()
+
+				db.session.add( comment )
+				db.session.commit()
+
+				session['flash'] = {
+					"success": ["That will make them think."]
+				}
+			else:
+				session['flash'] = {
+					"failure": ["Doesn't look like you have something to say."]
 				}
 		else:
 			session['flash'] = {

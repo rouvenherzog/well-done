@@ -1,0 +1,46 @@
+{% macro list( badge ) %}
+	<div class="row">
+		<div class="btn-group-vertical pull-right">
+			{% if current_user != badge.sender and current_user != badge.receiver %}
+				<a href="{{ url_for('.agree_badge', badge_id = badge.id) }}" class="btn btn-primary">
+					{% if not current_user in badge.agreeing %}
+						<span class="glyphicon glyphicon-thumbs-up"></span>
+					{% else %}
+						<span class="glyphicon glyphicon-thumbs-down"></span>
+					{% endif %}
+				</a>
+			{% endif %}
+
+			{% if current_user == badge.sender %}
+				<a href="{{ url_for('.remove_badge', badge_id = badge.id) }}" class="btn btn-primary">
+					<span class="glyphicon glyphicon-fire"></span>
+					Take it away!
+				</a>
+			{% endif %}
+
+			{% if current_user == badge.receiver %}
+				{% if not badge.wasnt_me %}
+					<a href="{{ url_for('.wasnt_me', badge_id = badge.id) }}" class="btn btn-primary">
+						<span class="glyphicon glyphicon-remove"></span>
+						Wasn't me.
+					</a>
+				{% else %}
+					<a href="{{ url_for('.wasnt_me', badge_id = badge.id) }}" class="btn btn-primary">
+						<span class="glyphicon glyphicon-repeat"></span>
+						Okay, it was me.
+					</a>
+				{% endif %}
+			{% endif %}
+
+
+			<a 
+				data-toggle="collapse" 
+				data-target="#badge-{{ badge.id }}-comments"
+				class="btn btn-default"
+			>
+				<span class="glyphicon glyphicon-comment"></span>
+				{{ badge.comments | length }}
+			</a>
+		</div>
+	</div>
+{% endmacro %}

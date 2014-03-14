@@ -1,0 +1,37 @@
+{% import 'snippets/badge-actions.html' as badge_actions with context %}
+{% import 'snippets/badge-comments.html' as badge_comments with context %}
+
+{% macro from(user) %}
+	<h3 class="capture">
+		Awesomeness
+	</h3>
+	{% for badge in user.received_badges | reverse %}
+		<div class="list-badge-wrapper">
+			<div class="col-md-8">
+				<blockquote class="{{ 'text-muted' if badge.wasnt_me }}">
+					<p>{{ badge.title }}</p>
+					<footer>
+						{{ badge.sender.name }}
+						{% if badge.agreeing.all() %}
+							(
+								{% for agreeing in badge.agreeing %}
+									{{ "" if loop.first else " and " if loop.last else ", " }}
+									{{
+										"You" if agreeing == current_user else agreeing.name 
+									}}
+								{% endfor %}
+								agree{{ "s" if badge.agreeing.all()|length == 1 and badge.agreeing.first() != current_user }}
+							)
+						{% endif %}
+					</footer>
+				</blockquote>
+			</div>
+			<div class="col-md-4 list-badge-action">
+				{{ badge_actions.list( badge ) }}
+			</div>
+			<div class="col-md-12 badge-comment-wrapper collapse" id="badge-{{ badge.id }}-comments">
+				{{ badge_comments.list( badge ) }}
+			</div>
+		</div>
+	{% endfor %}
+{% endmacro %}
