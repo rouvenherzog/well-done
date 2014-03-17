@@ -1,0 +1,16 @@
+{% if messages.success or messages.failure %}
+	<div class="col-md-4 messages">
+		<button type="button" class="close close-messages" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+		{% for m in messages.success %}
+			<div class="alert alert-success">
+				{{ m }}
+			</div>
+		{% endfor %}
+		{% for m in messages.failure %}
+			<div class="alert alert-danger">
+				{{ m }}
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}

@@ -1,0 +1,30 @@
+{% import 'snippets/badge-list.html' as list_badges with context %}
+
+<!Doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/bin/reset.css") }}" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="vendors/bootstrap/dist/css/bootstrap.min.css") }}" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/bin/style.css") }}" />
+	</head>
+	<body>
+		<div class="container">
+			{% block content %}
+			{% endblock %}
+		</div>
+
+		<script src="{{ url_for('static', filename='vendors/jquery/dist/jquery.min.js') }}">
+		</script>
+		<script src="{{ url_for('static', filename='vendors/bootstrap/dist/js/bootstrap.min.js') }}">
+		</script>
+		{% if goto_comment or goto_badge %}
+			<script>
+				var scroll_to = $('#{{ "comment-{0}".format(goto_comment.id) if goto_comment else "badge-{0}".format(goto_badge.id) }}');
+				if( scroll_to )
+					$(document.body).animate({
+						'scrollTop':   scroll_to.offset().top
+					}, 1000);
+			</script>
+		{% endif %}
+	</body>
+</html>

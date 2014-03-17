@@ -1,0 +1,35 @@
+{% extends 'layouts/main.html' %}
+{% import 'snippets/badge-list.html' as list_badges with context %}
+
+{% block content %}
+	{% include 'snippets/navigation.html' %}
+	{% include 'snippets/flash-messages.html' %}
+
+	<div class="jumbotron user-header">
+		<h1>{{ user.name }}</h1>
+	</div>
+
+	<div>
+		<div class="col-md-8">
+			{{ list_badges.from(user) }}
+		</div>
+		<div class="col-md-4">
+			<h3 class="capture">
+				That was awesome!
+			</h3>
+			<form role="form" method="POST" action="{{ url_for('.give_badge') }}">
+				<input type="hidden" name="receiver" value="{{ user.id }}" />
+				<div class="form-group">
+					<label for="badge-what-happend">What happend?</label>
+					<textarea 
+						class="form-control" 
+						id="badge-what-happend" 
+						placeholder="Why?"
+						name="title"
+					></textarea>
+				</div>
+				<button type="submit" class="btn btn-default pull-right">Submit</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}

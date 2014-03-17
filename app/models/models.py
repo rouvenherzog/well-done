@@ -1,6 +1,7 @@
 from ext.sys.database import db
 from flask.ext.security import UserMixin, RoleMixin
 from datetime import datetime, timedelta
+from sqlalchemy import CheckConstraint
 
 roles_users = db.Table('roles_users',
 		db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -108,3 +109,35 @@ class Comment( db.Model ):
 
 	def __init__(self):
 		self.send_at = datetime.now()
+
+class Notification( db.Model ):
+	id = db.Column( db.Integer, primary_key=True )
+	text = db.Column( db.String(255), default="" )
+	issued_at = db.Column( db.DateTime, default=datetime.now() )
+	link = db.Column( db.String(255) )
+
+	issuer_id = db.Column( db.Integer, db.ForeignKey('user.id') )
+	issuer = db.relationship(
+		'User',
+		foreign_keys=issuer_id,
+		backref=db.backref(
+			'issued_notifications',
+			lazy='dynamic'
+		)
+	)
+
+	receiver_id = db.Column( db.Integer, db.ForeignKey('user.id') )
+	receiver = db.relationship(
+		'User',
+		foreign_keys=receiver_id,
+		backref=db.backref(
+			'notifications',
+			lazy='joined'
+		)
+	)
+
+	reason_type = db.Column( db.String(255), CheckConstraint( 'type in ["badge", "comment"]' ) )
+	reason_id = db.Column( db.Integer )
+
+	def __init__(self):
+		self.issued_at = datetime.now()

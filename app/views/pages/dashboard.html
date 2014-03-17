@@ -1,0 +1,85 @@
+{% extends 'layouts/main.html' %}
+{% import 'snippets/badge-list.html' as list_badges with context %}
+
+{% block content %}
+	{% include 'snippets/navigation.html' %}
+	{% include 'snippets/flash-messages.html' %}
+
+	<div class="jumbotron dashboard-header">
+		<h1> {{ praise }}, {{ current_user.name }}! </h1>
+		<p> Go on and share the praise. </p>
+	</div>
+
+	<div class="col-md-12 user-stats">
+		<h3 class="capture">Stats</h3>
+
+		<div class="col-md-4">
+			<h4>Awesomeness Points</h4>
+			<div class="awesomeness-points">
+				{{ current_user.received_badge_points or 0 }}
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<h4>Achievement</h4>
+			<div class="awesomeness-achievements">
+				{{ current_user.valid_received_badges | length }}
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<h4>News</h4>
+			<ul>
+				{% for n in news %}
+					<li>
+						{{ n }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+			{{ list_badges.from(current_user) }}
+	</div>
+
+	<div class="col-md-4">
+		<h3 class="capture">Group Members</h3>
+		<ul class="list-group">
+			{% for user in other_users %}
+				<li class="list-group-item you-are-awesome-wrapper">
+					<a  href="{{ url_for('.show_user', user_id = user.id) }}">
+						<h2 class="pull-left group-member-name">
+							{{ user.name }}
+							<span class="badge">
+								{{ user.received_badge_points or 0 }} AP
+							</span>
+						</h2>
+					</a>
+
+					<h4 
+						class="btn btn-default pull-right you-are-awesome-btn"
+						data-toggle="collapse" 
+						data-target="#you-are-awesome-{{ user.id }}"
+					> That was awesome! </h4>
+					<div id="you-are-awesome-{{ user.id }}" class="you-are-awesome-form collapse">
+						<form role="form" method="POST" action="{{ url_for('.give_badge') }}">
+							<input type="hidden" name="receiver" value="{{ user.id }}" />
+							<div class="form-group">
+								<label for="badge-what-happend">What happend?</label>
+								<textarea 
+									class="form-control" 
+									id="badge-what-happend" 
+									placeholder="Why?"
+									name="title"
+								></textarea>
+							</div>
+							<button type="submit" class="btn btn-default pull-right">Submit</button>
+						</form>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+			{% endfor %}
+		</ul>
+			</div>
+{% endblock %}

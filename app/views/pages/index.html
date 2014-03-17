@@ -1,0 +1,28 @@
+{% extends 'layouts/main.html' %}
+
+{% block content %}
+	<nav class="navbar navbar-default navigation" role="navigation">
+		<div class="navbar-header">
+			<h3>
+				Well Done!
+			</h3>
+		</div>
+
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/login">Login</a></li>
+			<li><a href="/register">Register</a></li>
+		</ul>
+	</nav>
+
+	<div class="jumbotron">
+		<h1> That was a good job. <h1>
+		<p>
+			Just say it and share the praise.
+			Eric will feel better.
+		</p>
+		<a class="btn btn-primary" role="button" href="/register">
+			Register
+		</a>
+	</div>
+{% endblock %}

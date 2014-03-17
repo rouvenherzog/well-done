@@ -1,0 +1,47 @@
+<nav class="navbar navbar-default navigation" role="navigation">
+	<div class="navbar-header">
+		<h3>
+			Well Done! 
+			<small>{{ current_user.name }}</small>
+		</h3>
+	</div>
+
+	<ul class="nav navbar-nav">
+		<li class="{{ 'active' if '/dashboard' in request.path }}">
+			<a href="/dashboard">
+				Dashboard
+			</a>
+		</li>
+		<li class="notifications-dropdown">
+			<a data-toggle="dropdown">
+				Notifications
+				<span class="badge">{{ current_user.notifications | length }}</span>
+			</a>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+				<li>
+					<div class="up-arrow">
+					</div>
+				</li>
+				{% if not current_user.notifications %}
+				<li class="no-notifications">
+					<h4> Nothing to report, Sgt! </h4>
+				</li>
+				{% endif %}
+				{% for notification in current_user.notifications %}
+					<li>
+						<a href="{{ notification.link }}">
+							<div>
+								{{ notification.text }}
+							</div>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</li>
+	</ul>
+
+
+	<ul class="nav navbar-nav navbar-right">
+		<li><a href="/logout">Logout</a></li>
+	</ul>
+</nav>

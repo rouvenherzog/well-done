@@ -2,7 +2,7 @@
 <div class="col-md-offset-1">
 	<div class="comment-list-wrapper">
 		{% for comment in badge.comments %}
-			<div class="row">
+			<div class="row {{ 'highlight' if goto_comment == comment }}" id="comment-{{ comment.id }}">
 				<div class="col-md-2">
 					<h4>{{ comment.author.name }}</h4>
 
@@ -19,7 +19,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	
+
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-body">
