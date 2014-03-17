@@ -240,6 +240,18 @@ def register_views( project ):
 					db.session.add(notification)
 					db.session.commit()
 
+				if badge.sender != current_user:
+					notification = Notification()
+					notification.text = "{0} commented on a badge you gave.".format(current_user.name)
+					notification.issuer = current_user
+					notification.receiver = badge.sender
+					notification.link = url_for('.show_user', user_id=badge.receiver.id, comment_id=comment.id)
+					notification.reason_type = "comment"
+					notification.reason_id = comment.id
+
+					db.session.add(notification)
+					db.session.commit()
+
 				session['flash'] = {
 					"success": ["That will make them think."]
 				}
